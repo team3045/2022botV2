@@ -67,8 +67,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void drive (double x1, double y1, double x2) {
     double r = Math.sqrt ((L * L) + (W * W));
-    y1 = -y1;
-    x1 = -x1;
+    
     x2 = -x2;
 
     double a = x1 - x2 * (L / r);
@@ -87,7 +86,15 @@ public class DriveTrain extends SubsystemBase {
     double frontLeftAngle = (Math.atan2 (b, c) / Math.PI * 180) + 180;
 
     //System.out.println("0 1 8: "+ backRightAngle + "4 5 10: " + frontRightAngle + "6 7 11: " + frontLeftAngle);
-    
+    if(Math.abs(x1) + Math.abs(y1) + Math.abs(x2) < 0.1){
+      backRightAngle = 100;
+      backLeftAngle = 100;
+      frontRightAngle = 100;
+      frontLeftAngle = 100;
+    }
+    //System.out.println(RobotContainer.getInstance().backRight.getEncoderOut());
+    //System.out.println(RobotContainer.getInstance().backRight.get40ErrorClampedSetpoint());
+
     RobotContainer.getInstance().backRight.drive (backRightSpeed, backRightAngle);
     RobotContainer.getInstance().backLeft.drive (backLeftSpeed, backLeftAngle);
     RobotContainer.getInstance().frontRight.drive (frontRightSpeed, frontRightAngle);
