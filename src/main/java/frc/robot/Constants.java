@@ -23,11 +23,11 @@ public final class Constants {
     public static final double MAX_VOLTS = 4.95;
     public static final Joystick buttonBoard = new Joystick(0);
 
-    public static final double WheelPIDP = 0.00009;
-    public static final double WheelPIDI = 0.00001;
-    public static final double WheelPIDD = 0.000085;
+    public static final double WheelPIDP = 0.0012;//55;
+    public static final double WheelPIDI = 0.0;
+    public static final double WheelPIDD = 0.0;//00007;
 
-    public static final double RotResConst = 0.0;
+    public static final double RotResConst = 0.0; //0.0005
 
     public static final double limeLightAngleUp = 0; //Not final angle of limelight
     public static final double[] limeLightShooterOffset = new double[]{1, 1, 1}; //Not final limelight Shooter offset

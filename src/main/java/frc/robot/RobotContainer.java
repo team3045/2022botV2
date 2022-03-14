@@ -24,7 +24,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveTrain driveTrain;
   public final WheelDrive backRight;
-  //public final WheelDrive backLeft;
+  public final WheelDrive backLeft;
   public final WheelDrive frontRight;
   public final WheelDrive frontLeft;
 
@@ -47,10 +47,10 @@ public class RobotContainer {
     instance=this;
     driveTrain = new DriveTrain(1, 0);
 
-    backRight = new WheelDrive (0, 1, 8);
-    //backLeft = new WheelDrive (2, 3, 9);
-    frontRight = new WheelDrive (4, 5, 10);
-    frontLeft = new WheelDrive (6, 7, 11);
+    backLeft = new WheelDrive (0, 1, 8);
+    backRight = new WheelDrive (2, 3, 9);
+    frontLeft = new WheelDrive (4, 5, 10);
+    frontRight = new WheelDrive (6, 7, 11);
 
     driveTrain.regDefCommand();
 
