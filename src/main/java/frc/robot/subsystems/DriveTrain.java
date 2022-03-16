@@ -34,49 +34,19 @@ public class DriveTrain extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   public DriveTrain(int joystickL, int joystickR) {
-    //System.out.println("Drive Train Constructor");
     this.joystickL = new Joystick(joystickL);
     this.joystickR = new Joystick(joystickR);
-
-    SmartDashboard.putNumber("kP", Constants.WheelPIDP);
-    SmartDashboard.putNumber("kI", Constants.WheelPIDI);
-    SmartDashboard.putNumber("kD", Constants.WheelPIDD);
   }
-  //Registers the PIDCommands for the wheel drive as the default DriveTrain command
-  public void regDefCommand(){
-    ParallelCommandGroupNoEnd parallelCommandGroup = new ParallelCommandGroupNoEnd(RobotContainer.getInstance().backRight.pid, RobotContainer.getInstance().backLeft.pid, RobotContainer.getInstance().frontRight.pid, RobotContainer.getInstance().frontLeft.pid);
-    parallelCommandGroup.addRequirements(this);
-    setDefaultCommand(parallelCommandGroup);
-  }
+  //RegDefCommand was here
   
 
   @Override
   public void periodic() {    
-    //System.out.println(RobotContainer.getInstance().backLeft.get40ErrorClampedSetpoint());
     drive(joystickL.getRawAxis(0),joystickL.getRawAxis(1),joystickR.getRawAxis(0));
-    //System.out.println(joystickR.getRawAxis(0));
-    //LOG encoder output
-    
-    /*
-    x++;
-    if(x%50 == 0){
-      System.out.println("Back Right Swerve encoder out: " + RobotContainer.getInstance().backRight.getEncoderOut() + 
-                       "\nBack Left Swerve encoder out: " + RobotContainer.getInstance().backLeft.getEncoderOut() +
-                       "\nFront Right Swerve encoder out: " + RobotContainer.getInstance().frontRight.getEncoderOut() +
-                       "\nFront Left Swerve encoder out: " + RobotContainer.getInstance().frontLeft.getEncoderOut());               
-    }
-    */
-    /*
-    if(Math.abs(RobotContainer.getInstance().backLeft.getSetpoint() - RobotContainer.getInstance().backLeft.getEncoderOut()) > 15){
-    System.out.println(RobotContainer.getInstance().backLeft.getSetpoint()+ " " + RobotContainer.getInstance().backLeft.getEncoderOut());
-    }
-    */
   }
 
   public void drive (double x1, double y1, double x2) {
     double r = Math.sqrt ((L * L) + (W * W));
-    SmartDashboard.putNumber("Encoder out", RobotContainer.getInstance().backLeft.getEncoderOut());
-    SmartDashboard.putNumber("Setpoint", RobotContainer.getInstance().backLeft.getSetpoint());
 
     x2 = -x2;
 
@@ -97,10 +67,11 @@ public class DriveTrain extends SubsystemBase {
 
     //System.out.println("0 1 8: "+ backRightAngle + "4 5 10: " + frontRightAngle + "6 7 11: " + frontLeftAngle);
     if(Math.abs(x1) + Math.abs(y1) + Math.abs(x2) < 0.1){
-      backRightAngle = 100;
-      backLeftAngle = 100;
-      frontRightAngle = 100;
-      frontLeftAngle = 100;
+      //Default angle 0 instead of 100
+      backRightAngle = 0;
+      backLeftAngle = 0;
+      frontRightAngle = 0;
+      frontLeftAngle = 0;
     }
     //System.out.println(RobotContainer.getInstance().backRight.getEncoderOut());
     //System.out.println(RobotContainer.getInstance().backRight.get40ErrorClampedSetpoint());
@@ -109,8 +80,5 @@ public class DriveTrain extends SubsystemBase {
     RobotContainer.getInstance().backLeft.drive (backLeftSpeed, backLeftAngle);
     RobotContainer.getInstance().frontRight.drive (frontRightSpeed, frontRightAngle);
     RobotContainer.getInstance().frontLeft.drive (frontLeftSpeed, frontLeftAngle);
-  }
-  double lerp (double a, double b, double c){
-    return (b * c) + (a* (1-c));
   }
 }

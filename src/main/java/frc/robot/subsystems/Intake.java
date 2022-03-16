@@ -8,9 +8,13 @@
 
 package frc.robot.subsystems;
 
+import javax.print.attribute.SetOfIntegerSyntax;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,16 +27,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Intake extends SubsystemBase {
-  
+    //public final Solenoid solenoid;
     public final TalonSRX intakeAxelController;
 
 
-    public Intake(TalonSRX intakeAxelController) {
-        this.intakeAxelController = intakeAxelController;
+    public Intake(int axelID, int solenoidID) {
+        this.intakeAxelController = new TalonSRX(axelID);
+        //solenoid = new Solenoid(solenoidID);
     }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    /*
+    if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.intakeButton))
+      solenoid.set(!solenoid.get());
+    */
   }
 }

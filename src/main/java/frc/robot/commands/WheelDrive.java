@@ -26,7 +26,6 @@ public class WheelDrive {
   private final TalonFX speedMotor;
   private final CANCoder encoder;
   private final StopWatch watch;
-  public  final WheelDrivePID pid;
   public  final int id;
   private double setpoint;
 
@@ -37,17 +36,16 @@ public class WheelDrive {
     this.angleMotor = new TalonFX (angleMotor);
     this.speedMotor = new TalonFX (speedMotor);
     this.encoder = new CANCoder(encoder);
-
-    pid = new WheelDrivePID(this);
   }
   public void drive (double speed, double angle) {
     speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
     this.setpoint = angle;
 
-    System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint);
+    double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.0014,-0.5, 0.5),-1, 1);
+    System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);
     
 
-    angleMotor.set(ControlMode.PercentOutput, MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * SmartDashboard.getNumber("kP", 0.0),-0.5, 0.5),-1, 1));
+    angleMotor.set(ControlMode.PercentOutput, rate);
   }
   double angleFactor(){
     double delta = getEncoderOut()-setpoint;
@@ -68,7 +66,7 @@ public class WheelDrive {
   }
   public double getError(){
     double loopDownError = -((180 - setpoint) + PIDEncOut());
-    double loopUpError = (180 - PIDEncOut()) + setpoint;
+    double loopUpError = ((180 - PIDEncOut()) + setpoint);
 
     double loopError = Math.abs(loopUpError) > Math.abs(loopDownError) ? loopDownError : loopUpError;
 
@@ -88,8 +86,9 @@ public class WheelDrive {
     return (1 + (Constants.RotResConst * Math.abs(speedMotor.getSelectedSensorVelocity())));
   }
   public void runAngleMotor(double rate){ 
+    /*
     rate = -SmartDashboard.getNumber("kP", 0.0) * getError();
     rate = MathUtil.clamp(rate, -0.5, 0.5);  
-    angleMotor.set(ControlMode.PercentOutput, MathUtil.clamp(rate * getMagScaler(), -1, 1));
+    angleMotor.set(ControlMode.PercentOutput, MathUtil.clamp(rate * getMagScaler(), -1, 1));*/
   }
 }
