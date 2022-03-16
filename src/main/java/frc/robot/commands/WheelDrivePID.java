@@ -16,11 +16,11 @@ import frc.robot.subsystems.DriveTrain;
 public class WheelDrivePID extends PIDCommand {
   public WheelDrivePID (WheelDrive wheel) {
     super(new PIDController (Constants.WheelPIDP, Constants.WheelPIDI, Constants.WheelPIDD, 0.001), 
-          wheel::PIDEncOut,
           wheel::PIDSetpoint,
+          0.0,
           wheel::runAngleMotor); 
-
-    getController().enableContinuousInput(0, 180);
+    getController().setTolerance(0.1);
+    //getController().enableContinuousInput(0, 180);
     //addRequirements(RobotContainer.getInstance().getDRinstance());
   }
   @Override

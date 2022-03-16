@@ -9,11 +9,14 @@ package frc.robot.commands;
 
 import javax.print.attribute.SetOfIntegerSyntax;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import frc.robot.Constants;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.time.StopWatch;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.SerialPort.StopBits;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -24,9 +27,11 @@ public class WheelDrive {
   private final CANCoder encoder;
   private final StopWatch watch;
   public  final WheelDrivePID pid;
+  public  final int id;
   private double setpoint;
 
-  public WheelDrive (int angleMotor, int speedMotor, int encoder) {
+  public WheelDrive (int angleMotor, int speedMotor, int encoder, int id) {
+    this.id = id;
     watch = new StopWatch();
     watch.start();
     this.angleMotor = new TalonFX (angleMotor);
@@ -39,18 +44,10 @@ public class WheelDrive {
     speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
     this.setpoint = angle;
 
-    /*double loopError = ((setpoint + 90) % 180) - ((PIDEncOut() + 90) %180);
-    double nonLoopError = (setpoint%180) - PIDEncOut();
+    System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint);
     
-    double error = (Math.abs(nonLoopError) > Math.abs(loopError)) ? loopError : nonLoopError;
-    
-    System.out.println(error);
 
-  angleMotor.set(ControlMode.PercentOutput, Constants.WheelPIDP * error);*/
-
-    if(this.setpoint != 100){
-      System.out.println(this.setpoint);
-    }
+    angleMotor.set(ControlMode.PercentOutput, MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * SmartDashboard.getNumber("kP", 0.0),-0.5, 0.5),-1, 1));
   }
   double angleFactor(){
     double delta = getEncoderOut()-setpoint;
@@ -69,31 +66,30 @@ public class WheelDrive {
   public double getSetpoint(){
     return setpoint;
   }
-  public double get40ErrorClampedSetpoint(){
-    double loopError = ((setpoint + 90) % 180) - ((PIDEncOut() + 90) %180);
+  public double getError(){
+    double loopDownError = -((180 - setpoint) + PIDEncOut());
+    double loopUpError = (180 - PIDEncOut()) + setpoint;
+
+    double loopError = Math.abs(loopUpError) > Math.abs(loopDownError) ? loopDownError : loopUpError;
+
     double nonLoopError = (setpoint%180) - PIDEncOut();
     
     double error = (Math.abs(nonLoopError) > Math.abs(loopError)) ? loopError : nonLoopError;
 
+    //System.out.print("\nID:" + id + "\nLDE:" + loopDownError + "\nLUE:" + loopUpError + "\nLP" + loopError + "\nNLE:" + nonLoopError + "\nError:" + error + "\nSP:" + setpoint + "\nENC:" + PIDEncOut());
     //System.out.println("Enc: " + PIDEncOut() + "\nSet: " + (setpoint%180) /*+ "\nLue: "+loopDownError+"\nLde: "+loopUpError*/+"\nLe: "+loopError+"\nNle: "+nonLoopError+"\nE: "+error);
-
-    if(error > 40)
-      error = 40;
-    if(error < -40)
-      error = -40;
     
-    return (PIDEncOut() + error + 180) % 180;
+    return (error);
   }
   public double PIDSetpoint(){
-    if((get40ErrorClampedSetpoint() % 180) < 0 || (get40ErrorClampedSetpoint() % 180) > 180)
-      System.out.println(getEncoderOut() % 180);
-    return (get40ErrorClampedSetpoint()+90) % 180;
+    return (getError());
   } 
   public double getMagScaler(){
     return (1 + (Constants.RotResConst * Math.abs(speedMotor.getSelectedSensorVelocity())));
   }
-  public void runAngleMotor(double rate){
-    System.out.println(rate);
-    angleMotor.set(ControlMode.PercentOutput, rate /* getMagScaler()*/);
+  public void runAngleMotor(double rate){ 
+    rate = -SmartDashboard.getNumber("kP", 0.0) * getError();
+    rate = MathUtil.clamp(rate, -0.5, 0.5);  
+    angleMotor.set(ControlMode.PercentOutput, MathUtil.clamp(rate * getMagScaler(), -1, 1));
   }
 }

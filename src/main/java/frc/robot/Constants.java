@@ -20,12 +20,13 @@ import edu.wpi.first.wpilibj.Joystick;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final int TIMEOUT = 10;
     public static final double MAX_VOLTS = 4.95;
     public static final Joystick buttonBoard = new Joystick(0);
 
-    public static final double WheelPIDP = 0.0012;//55;
+    public static final double WheelPIDP = 0.0014;
     public static final double WheelPIDI = 0.0;
-    public static final double WheelPIDD = 0.0;//00007;
+    public static final double WheelPIDD = 0.00007;//00007;
 
     public static final double RotResConst = 0.0; //0.0005
 

@@ -18,6 +18,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.*;
 import edu.wpi.first.util.sendable.SendableBuilder.BackendKind;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -36,6 +37,10 @@ public class DriveTrain extends SubsystemBase {
     //System.out.println("Drive Train Constructor");
     this.joystickL = new Joystick(joystickL);
     this.joystickR = new Joystick(joystickR);
+
+    SmartDashboard.putNumber("kP", Constants.WheelPIDP);
+    SmartDashboard.putNumber("kI", Constants.WheelPIDI);
+    SmartDashboard.putNumber("kD", Constants.WheelPIDD);
   }
   //Registers the PIDCommands for the wheel drive as the default DriveTrain command
   public void regDefCommand(){
@@ -47,6 +52,7 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {    
+    //System.out.println(RobotContainer.getInstance().backLeft.get40ErrorClampedSetpoint());
     drive(joystickL.getRawAxis(0),joystickL.getRawAxis(1),joystickR.getRawAxis(0));
     //System.out.println(joystickR.getRawAxis(0));
     //LOG encoder output
@@ -60,14 +66,18 @@ public class DriveTrain extends SubsystemBase {
                        "\nFront Left Swerve encoder out: " + RobotContainer.getInstance().frontLeft.getEncoderOut());               
     }
     */
+    /*
     if(Math.abs(RobotContainer.getInstance().backLeft.getSetpoint() - RobotContainer.getInstance().backLeft.getEncoderOut()) > 15){
-      //System.out.println(RobotContainer.getInstance().backLeft.getSetpoint() - RobotContainer.getInstance().backLeft.getEncoderOut());
+    System.out.println(RobotContainer.getInstance().backLeft.getSetpoint()+ " " + RobotContainer.getInstance().backLeft.getEncoderOut());
     }
+    */
   }
 
   public void drive (double x1, double y1, double x2) {
     double r = Math.sqrt ((L * L) + (W * W));
-    
+    SmartDashboard.putNumber("Encoder out", RobotContainer.getInstance().backLeft.getEncoderOut());
+    SmartDashboard.putNumber("Setpoint", RobotContainer.getInstance().backLeft.getSetpoint());
+
     x2 = -x2;
 
     double a = x1 - x2 * (L / r);
