@@ -54,8 +54,6 @@ public class RobotContainer {
     frontLeft = new WheelDrive (4, 5, 10, 2);
     frontRight = new WheelDrive (6, 7, 11, 3);
 
-    //driveTrain.regDefCommand();
-
     // Configure the button bindings
     configureButtonBindings();
   }

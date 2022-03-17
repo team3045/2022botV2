@@ -25,14 +25,12 @@ public class WheelDrive {
   private final TalonFX angleMotor;
   private final TalonFX speedMotor;
   private final CANCoder encoder;
-  private final StopWatch watch;
   public  final int id;
   private double setpoint;
 
   public WheelDrive (int angleMotor, int speedMotor, int encoder, int id) {
     this.id = id;
-    watch = new StopWatch();
-    watch.start();
+    //watch was here
     this.angleMotor = new TalonFX (angleMotor);
     this.speedMotor = new TalonFX (speedMotor);
     this.encoder = new CANCoder(encoder);
@@ -42,7 +40,7 @@ public class WheelDrive {
     this.setpoint = angle;
 
     double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.0014,-0.5, 0.5),-1, 1);
-    System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);
+    //System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);
     
 
     angleMotor.set(ControlMode.PercentOutput, rate);
@@ -57,8 +55,6 @@ public class WheelDrive {
     return ((encoder.getPosition()%360)+360)%360;
   }
   public double PIDEncOut(){
-    if((getEncoderOut() % 180) < 0 || (getEncoderOut() % 180) > 180)
-      System.out.println(getEncoderOut() % 180);
     return getEncoderOut() % 180;
   }
   public double getSetpoint(){
@@ -79,16 +75,7 @@ public class WheelDrive {
     
     return (error);
   }
-  public double PIDSetpoint(){
-    return (getError());
-  } 
   public double getMagScaler(){
     return (1 + (Constants.RotResConst * Math.abs(speedMotor.getSelectedSensorVelocity())));
-  }
-  public void runAngleMotor(double rate){ 
-    /*
-    rate = -SmartDashboard.getNumber("kP", 0.0) * getError();
-    rate = MathUtil.clamp(rate, -0.5, 0.5);  
-    angleMotor.set(ControlMode.PercentOutput, MathUtil.clamp(rate * getMagScaler(), -1, 1));*/
   }
 }

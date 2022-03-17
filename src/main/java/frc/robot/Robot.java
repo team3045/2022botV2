@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.util.RootNameLookup;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -47,6 +49,11 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    for(int i = 1; i < 13; i++){
+      if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(i)){
+        System.out.println("Button #" + i + " pressed");
+      }
+    }
   }
 
   /**
