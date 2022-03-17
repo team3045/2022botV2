@@ -29,7 +29,7 @@ public class RobotContainer {
   public final WheelDrive frontRight;
   public final WheelDrive frontLeft;
 
-  private final LimelightVision LimelightVision = new LimelightVision();
+  public final LimelightVision LimelightVision = new LimelightVision();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private static RobotContainer instance;

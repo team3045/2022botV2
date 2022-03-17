@@ -34,6 +34,8 @@ public final class Constants {
     public static final int uptakeButton = 6;
     public static final int magButton = 7;
 
+    public static final int revButton = 3;
+
     public static final int climbingArmUp = 8;
     public static final int climbingArmDown = 5;
 
