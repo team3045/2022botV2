@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.enums.*;
 
 public class ClimbingArms extends SubsystemBase{
     private final TalonSRX armMot1;
@@ -18,7 +19,7 @@ public class ClimbingArms extends SubsystemBase{
 
     @Override 
     public void periodic() {
-        armMot1.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmUp) ? Constants.climbingArmSpeed : 0) +
-                                               (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmDown) ? -Constants.climbingArmSpeed : 0));
+        armMot1.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmUpButton) ? Constants.climbingArmSpeed : 0) +
+                                               (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmDownButton) ? -Constants.climbingArmSpeed : 0));
     }
 }

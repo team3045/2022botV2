@@ -27,6 +27,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.enums.*;
+
 
 public class Intake extends SubsystemBase {
     public final Solenoid solenoid;
@@ -40,10 +42,12 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.intakeUDButton))
-      solenoid.set(!solenoid.get());
+    if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
+      if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.intakeRLButton))
+        solenoid.set(!solenoid.get());
     
-    intakeAxelController.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
-                                                      + (RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.reverseButton) ? -Constants.intakeSpeed : 0));
+      intakeAxelController.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
+                                                        + (RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.reverseButton) ? -Constants.intakeSpeed : 0));
+    }
   }
 }

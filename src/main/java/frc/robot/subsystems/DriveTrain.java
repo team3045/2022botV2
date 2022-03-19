@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.enums.*;
 
 public class DriveTrain extends SubsystemBase {
   private final Joystick joystickL;
@@ -42,7 +43,22 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {    
-    drive(joystickL.getRawAxis(0),joystickL.getRawAxis(1),joystickR.getRawAxis(0));
+    switch (RobotContainer.DRIVE_MODE){
+      case AUTON_START:
+        drive(0, -0.5, 0);
+        break;
+      case TELEOP_DRIVE:
+        drive(joystickL.getRawAxis(0),joystickL.getRawAxis(1),joystickR.getRawAxis(0));
+        break;
+      case AUTON_DRIVE:
+        drive(RobotContainer.getInstance().LimelightVision.x1Auto(), RobotContainer.getInstance().LimelightVision.y1Auto(), RobotContainer.getInstance().LimelightVision.getRotSpeed());
+        break;
+      case TELEOP_AIM:
+        drive(0, 0, RobotContainer.getInstance().LimelightVision.getRotSpeed());
+        break;
+      case AUTON_AIM:
+        drive(0, 0, RobotContainer.getInstance().LimelightVision.getRotSpeed())
+    }
   }
 
   public void drive (double x1, double y1, double x2) {
@@ -66,7 +82,7 @@ public class DriveTrain extends SubsystemBase {
     double frontLeftAngle = (Math.atan2 (b, c) / Math.PI * 180) + 180;
 
     //System.out.println("0 1 8: "+ backRightAngle + "4 5 10: " + frontRightAngle + "6 7 11: " + frontLeftAngle);
-    if(Math.abs(x1) + Math.abs(y1) + Math.abs(x2) < 0.1){
+    if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE && Math.abs(x1) + Math.abs(y1) + Math.abs(x2) < 0.1){
       //Default angle 0 instead of 100
       backRightAngle = 0;
       backLeftAngle = 0;

@@ -8,13 +8,16 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.lang.Math;
 import java.lang.Double;
+import frc.robot.enums.*;
 
 public class LimelightVision extends SubsystemBase {
   private final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -39,14 +42,29 @@ public class LimelightVision extends SubsystemBase {
   public void setAiming(boolean value){
     aiming = value;
     if(value){
+      if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE)
+        RobotContainer.DRIVE_MODE = DRIVE_MODE.TELEOP_AIM;
+      if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_DRIVE)
+        RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_AIM;
+
       camMode.setDouble(0);
       ledMode.setDouble(3);
     } else {
+      if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM)
+        RobotContainer.DRIVE_MODE = DRIVE_MODE.TELEOP_DRIVE;
+      if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM)
+        RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_DRIVE;
+
       camMode.setDouble(1);
       ledMode.setDouble(0);
     }
   }
-
+  public double x1Auto(){
+    return Math.sin(x) / (Constants.ballSizeMult * area);
+  }
+  public double y1Auto(){
+    return Math.cos(x);
+  }
   public LimelightVision() {
     setAiming(true);
   }
@@ -79,5 +97,11 @@ public class LimelightVision extends SubsystemBase {
       return Constants.goalRadius + (Constants.limeLightGoalVerticalOffset / Math.tan(Math.toRadians(y + Constants.limeLightAngleUp)));
     else
       return null;
+  }
+  public double getRotSpeed(){
+    if(Math.abs(x) > Constants.aimTolerance)
+      return -MathUtil.clamp(x * Constants.aimSpeed, -Constants.maxAimRotSpeed, Constants.maxAimRotSpeed);
+    else
+      return 0.0;
   }
 }
