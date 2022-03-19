@@ -7,11 +7,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.time.StopWatch;
 import com.fasterxml.jackson.databind.util.RootNameLookup;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.enums.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,6 +25,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private StopWatch watch;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -72,6 +75,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    watch = new StopWatch();
+    watch.start();
+    RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_START;
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -85,10 +92,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_START && watch.getDuration() > Constants.driveBackTime){
+      RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_DRIVE;
+    }
   }
 
   @Override
   public void teleopInit() {
+    RobotContainer.DRIVE_MODE = DRIVE_MODE.TELEOP_DRIVE;
+    RobotContainer.getInstance().LimelightVision.setAiming(false);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

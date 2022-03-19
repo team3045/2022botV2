@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+
 /*
  *   
  *   The Constants class provides a convenie  p
@@ -42,6 +43,12 @@ public final class Constants {
     public static final double climbingArmSpeed = 0.02;
     public static final double uptakeSpeed = 0.05;
     public static final double magSpeed = 0.02;
+
+    public static final double driveBackTime = 0.2;
+    public static final double maxAimRotSpeed = 0.15;
+    public static final double aimTolerance = 5;
+    public static final double aimSpeed = 0.12;
+    public static final double ballSizeMult = 0.2;
 
     public static final double limeLightAngleUp = 0; //Not final angle of limelight
     public static final double[] limeLightShooterOffset = new double[]{1, 1, 1}; //Not final limelight Shooter offset
