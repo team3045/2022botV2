@@ -25,19 +25,18 @@ public final class Constants {
 
     public static final double RotResConst = 0.0; //0.0005
 
+    public static final int revButton = 3;
     public static final int reverseButton = 10;
     public static final int uptakeReverseButton = 9;
 
     public static final int intakeButton = 12;
-    public static final int intakeUDButton = 11;
+    public static final int intakeRLButton = 11;
 
     public static final int uptakeButton = 6;
     public static final int magButton = 7;
 
-    public static final int revButton = 3;
-
-    public static final int climbingArmUp = 8;
-    public static final int climbingArmDown = 5;
+    public static final int climbingArmUpButton = 8;
+    public static final int climbingArmDownButton = 5;
 
     public static final double intakeSpeed = 0.05;
     public static final double climbingArmSpeed = 0.02;

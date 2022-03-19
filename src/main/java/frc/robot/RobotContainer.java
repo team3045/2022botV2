@@ -28,6 +28,7 @@ public class RobotContainer {
   public final WheelDrive backLeft;
   public final WheelDrive frontRight;
   public final WheelDrive frontLeft;
+  public final Shooter shooter;
 
   public final LimelightVision LimelightVision = new LimelightVision();
 
@@ -49,10 +50,14 @@ public class RobotContainer {
     instance=this;
     driveTrain = new DriveTrain(1, 0);
 
-    backLeft = new WheelDrive (0, 1, 8, 0);
-    backRight = new WheelDrive (2, 3, 9, 1);
-    frontLeft = new WheelDrive (4, 5, 10, 2);
-    frontRight = new WheelDrive (6, 7, 11, 3);
+    backLeft = new WheelDrive (0, 1, 10, 0);
+    backRight = new WheelDrive (2, 3, 11, 1);
+    frontLeft = new WheelDrive (4, 5, 12, 2);
+    frontRight = new WheelDrive (6, 7, 14, 3);
+
+    shooter = new Shooter(8, 9);
+
+
 
     // Configure the button bindings
     configureButtonBindings();

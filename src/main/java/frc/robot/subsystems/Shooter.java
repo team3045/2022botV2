@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-class Shooter extends SubsystemBase {
+public class Shooter extends SubsystemBase {
     private final TalonSRX top;
     private final TalonSRX bottom;
     
@@ -40,8 +40,8 @@ class Shooter extends SubsystemBase {
     @Override
     public void periodic(){
         if (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.revButton)){
-            top.set(ControlMode.percentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
-            bottom.set(ControlMode.percentOutput, 0.75 * -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+            top.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+            bottom.set(ControlMode.PercentOutput, 0.75 * -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
         }
     }
 }
