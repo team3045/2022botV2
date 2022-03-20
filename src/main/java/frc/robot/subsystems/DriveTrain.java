@@ -9,9 +9,11 @@ package frc.robot.subsystems;
 
 import java.io.Console;
 
+import javax.lang.model.util.ElementScanner6;
 import javax.naming.PartialResultException;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.time.StopWatch;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -51,13 +53,14 @@ public class DriveTrain extends SubsystemBase {
         drive(joystickL.getRawAxis(0),joystickL.getRawAxis(1),joystickR.getRawAxis(0));
         break;
       case AUTON_DRIVE:
-        drive(RobotContainer.getInstance().LimelightVision.x1Auto(), RobotContainer.getInstance().LimelightVision.y1Auto(), RobotContainer.getInstance().LimelightVision.getRotSpeed());
+        drive(0,0,0);
         break;
       case TELEOP_AIM:
         drive(0, 0, RobotContainer.getInstance().LimelightVision.getRotSpeed());
         break;
       case AUTON_AIM:
-        drive(0, 0, RobotContainer.getInstance().LimelightVision.getRotSpeed())
+        drive(0, 0, RobotContainer.getInstance().LimelightVision.getRotSpeed());
+        break;
     }
   }
 

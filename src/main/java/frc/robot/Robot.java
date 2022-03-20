@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_START && watch.getDuration() > Constants.driveBackTime){
-      RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_DRIVE;
+      RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_AIM;
     }
   }
 

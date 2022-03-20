@@ -45,7 +45,14 @@ public class Shooter extends SubsystemBase {
             if (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.revButton)){
                 top.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
                 bottom.set(ControlMode.PercentOutput, 0.75 * -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
-         }
+            }
+        } else if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
+            if(RobotContainer.getInstance().LimelightVision.autonShouldShoot()){
+                top.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+                bottom.set(ControlMode.PercentOutput, 0.75 * -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+            }
+        } else {
+            top.set(ControlMode.PercentOutput, 0); bottom.set(ControlMode.PercentOutput, 0);
         }
     }
 }
