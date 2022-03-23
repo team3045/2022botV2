@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
@@ -26,8 +27,7 @@ public class LimelightVision extends SubsystemBase {
   private final NetworkTableEntry ta = table.getEntry("ta");
   private final NetworkTableEntry tv = table.getEntry("tv");
 
-  private final NetworkTableEntry camMode = table.getEntry("camMode");
-  private final NetworkTableEntry ledMode = table.getEntry("ledMode");
+  private final NetworkTableEntry pipeline = table.getEntry("pipeline");
 
   private double x;
   private double y;
@@ -47,16 +47,14 @@ public class LimelightVision extends SubsystemBase {
       if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_DRIVE)
         RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_AIM;
 
-      camMode.setDouble(0);
-      ledMode.setDouble(3);
+      pipeline.setDouble(0);
     } else {
       if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM)
         RobotContainer.DRIVE_MODE = DRIVE_MODE.TELEOP_DRIVE;
       if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM)
         RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_DRIVE;
 
-      camMode.setDouble(1);
-      ledMode.setDouble(0);
+      pipeline.setDouble(Constants.colorPipeline);
     }
   }
   public double x1Auto(){
@@ -71,7 +69,7 @@ public class LimelightVision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(aiming){
+    if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_DRIVE || RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
       findVals();
     }
   }
@@ -98,10 +96,16 @@ public class LimelightVision extends SubsystemBase {
     else
       return null;
   }
+  public boolean getV(){
+    return v;
+  }
   public double getRotSpeed(){
     if(Math.abs(x) > Constants.aimTolerance)
       return -MathUtil.clamp(x * Constants.aimSpeed, -Constants.maxAimRotSpeed, Constants.maxAimRotSpeed);
     else
       return 0.0;
+  }
+  public boolean autonShouldShoot(){
+    return Math.abs(x) < Constants.aimTolerance;
   }
 }

@@ -39,6 +39,8 @@ public final class Constants {
     public static final int climbingArmUpButton = 8;
     public static final int climbingArmDownButton = 5;
 
+    public static final int colorPipeline = 1;
+
     public static final double intakeSpeed = 0.05;
     public static final double climbingArmSpeed = 0.02;
     public static final double uptakeSpeed = 0.05;
@@ -49,10 +51,11 @@ public final class Constants {
     public static final double aimTolerance = 5;
     public static final double aimSpeed = 0.12;
     public static final double ballSizeMult = 0.2;
+    public static final double revTime = 1.0;
+    public static final double uptakeTime = 1.0;
 
-    public static final double limeLightAngleUp = 0; //Not final angle of limelight
-    public static final double[] limeLightShooterOffset = new double[]{1, 1, 1}; //Not final limelight Shooter offset
-    public static final double limeLightGoalVerticalOffset = 5; //also not final
-    public static final double G = 9.80665; //assuming m/s^2
-    public static final double goalRadius = 0.68; //assuming meters
+    public static final double limeLightAngleUp = 0;
+    public static final double limeLightGoalVerticalOffset = 1.8923;
+    public static final double G = 9.80665;
+    public static final double goalRadius = 0.68;
 }
