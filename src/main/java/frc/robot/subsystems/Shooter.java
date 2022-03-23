@@ -22,12 +22,12 @@ import frc.robot.enums.*;
 
 
 public class Shooter extends SubsystemBase {
-    private final TalonSRX top;
-    private final TalonSRX bottom;
+    private final TalonSRX topFW;
+    private final TalonSRX bottomFW;
     
-    public Shooter(int topID, int bottomID){
-        top = new TalonSRX(topID);
-        bottom = new TalonSRX(bottomID);
+    public Shooter(int topFWID, int bottomFWID){
+        topFW = new TalonSRX(topFWID);
+        bottomFW = new TalonSRX(bottomFWID);
     }
 
     public double regression(Double distance){
@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
             System.out.println("Turn on aim or goal not visible");
             return 0;
         } else {
-            return 0.0; //TODO regressions
+            return 0.0; //TODO regressionss
         }
     }
 
@@ -43,8 +43,8 @@ public class Shooter extends SubsystemBase {
     public void periodic(){
         if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM){
             if (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.revButton)){
-                top.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
-                bottom.set(ControlMode.PercentOutput, 0.75 * -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+                topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+                bottomFW.set(ControlMode.PercentOutput, 0.75 * -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
          }
         }
     }

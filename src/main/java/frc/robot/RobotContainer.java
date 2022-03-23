@@ -32,6 +32,7 @@ public class RobotContainer {
   public final WheelDrive frontRight;
   public final WheelDrive frontLeft;
   public final Shooter shooter;
+  public final Magazine magazine;
 
   public final LimelightVision LimelightVision = new LimelightVision();
 
@@ -59,6 +60,8 @@ public class RobotContainer {
     frontRight = new WheelDrive (6, 7, 14, 3);
 
     shooter = new Shooter(8, 9);
+
+    magazine = new Magazine(15, 16);
 
 
 
