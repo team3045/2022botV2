@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     for(int i = 1; i < 13; i++){
-      if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(i)){
+      if(RobotContainer.getInstance().buttonBoard.getRawButton(i)){
         System.out.println("Button #" + i + " pressed");
       }
     }

@@ -33,6 +33,8 @@ public class RobotContainer {
   public final WheelDrive frontLeft;
   public final Shooter shooter;
   public final Magazine magazine;
+  public final Intake intake;
+  public final ClimbingArms climbingArms;
 
   public final LimelightVision LimelightVision = new LimelightVision();
 
@@ -51,17 +53,24 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    DRIVE_MODE = DRIVE_MODE.PRE_ENABLE;
     instance=this;
     driveTrain = new DriveTrain(1, 0);
 
     backLeft = new WheelDrive (0, 1, 10, 0);
     backRight = new WheelDrive (2, 3, 11, 1);
     frontLeft = new WheelDrive (4, 5, 12, 2);
-    frontRight = new WheelDrive (6, 7, 14, 3);
+    frontRight = new WheelDrive (6, 7, 13, 3);
 
     shooter = new Shooter(8, 9);
 
     magazine = new Magazine(15, 16);
+
+    intake = new Intake(18, 0, 1);
+
+    climbingArms = new ClimbingArms(17, 19);
+
+
 
 
 

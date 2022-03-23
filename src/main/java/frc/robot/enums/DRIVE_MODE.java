@@ -5,5 +5,6 @@ public enum DRIVE_MODE {
     AUTON_DRIVE,
     TELEOP_AIM,
     AUTON_AIM,
-    AUTON_START
+    AUTON_START,
+    PRE_ENABLE
 }

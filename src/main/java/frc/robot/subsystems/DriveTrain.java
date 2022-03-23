@@ -29,6 +29,13 @@ public class DriveTrain extends SubsystemBase {
   private final Joystick joystickL;
   private final Joystick joystickR;
 
+  private final double InputAdjustmentAngle = Math.PI/4;
+
+  private final double XXCompMult;
+  private final double XYCompMult;
+  private final double YXCompMult;
+  private final double YYCompMult;
+
   private final double W = 27;
   private final double L = 32;
 
@@ -39,6 +46,12 @@ public class DriveTrain extends SubsystemBase {
   public DriveTrain(int joystickL, int joystickR) {
     this.joystickL = new Joystick(joystickL);
     this.joystickR = new Joystick(joystickR);
+
+    XXCompMult = Math.cos(InputAdjustmentAngle);
+    XYCompMult = Math.sin(InputAdjustmentAngle);
+
+    YXCompMult = -Math.sin(InputAdjustmentAngle);
+    YYCompMult = Math.cos(InputAdjustmentAngle);
   }
   //RegDefCommand was here
   
@@ -68,6 +81,12 @@ public class DriveTrain extends SubsystemBase {
     double r = Math.sqrt ((L * L) + (W * W));
 
     x2 = -x2;
+
+    double tempX = x1 * XXCompMult + y1 * YXCompMult;
+    double tempY = x1 * XYCompMult + y1 * YYCompMult;
+
+    x1 = tempX;
+    y1 = tempY;
 
     double a = x1 - x2 * (L / r);
     double b = x1 + x2 * (L / r);

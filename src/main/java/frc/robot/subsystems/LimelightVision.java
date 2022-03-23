@@ -69,6 +69,8 @@ public class LimelightVision extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.aimToggle))
+      setAiming(!getAiming());
     if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_DRIVE || RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
       findVals();
     }
