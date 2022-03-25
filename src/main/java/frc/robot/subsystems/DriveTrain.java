@@ -59,6 +59,9 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {    
     switch (RobotContainer.DRIVE_MODE){
+      case PRE_ENABLE:
+        drive(0, 0, 0);
+        break;
       case AUTON_START:
         drive(0, -0.5, 0);
         break;
@@ -80,13 +83,14 @@ public class DriveTrain extends SubsystemBase {
   public void drive (double x1, double y1, double x2) {
     double r = Math.sqrt ((L * L) + (W * W));
 
+    y1 = -y1;
     x2 = -x2;
 
-    double tempX = x1 * XXCompMult + y1 * YXCompMult;
-    double tempY = x1 * XYCompMult + y1 * YYCompMult;
+    //double tempX = x1 * XXCompMult + y1 * YXCompMult;
+    //double tempY = x1 * XYCompMult + y1 * YYCompMult;
 
-    x1 = tempX;
-    y1 = tempY;
+    //x1 = tempX;
+    //y1 = tempY;
 
     double a = x1 - x2 * (L / r);
     double b = x1 + x2 * (L / r);

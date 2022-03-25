@@ -36,13 +36,14 @@ public class WheelDrive {
     this.encoder = new CANCoder(encoder);
   }
   public void drive (double speed, double angle) {
+    System.out.println(id + ": " +getEncoderOut());
     speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
     this.setpoint = angle;
 
     double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.0014,-0.5, 0.5),-1, 1);
     //System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);
     
-
+    
     angleMotor.set(ControlMode.PercentOutput, rate);
   }
   double angleFactor(){
@@ -52,7 +53,7 @@ public class WheelDrive {
     return -Math.cos(delta);
   }
   public double getEncoderOut(){
-    return ((encoder.getPosition()%360)+360)%360;
+    return ((encoder.getAbsolutePosition()%360)+360)%360;
   }
   public double PIDEncOut(){
     return getEncoderOut() % 180;
