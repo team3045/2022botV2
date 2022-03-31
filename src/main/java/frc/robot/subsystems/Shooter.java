@@ -31,12 +31,13 @@ public class Shooter extends SubsystemBase {
     }
 
     public double regression(Double distance){
+        return 0.5;/*
         if(distance == null){
             System.out.println("Turn on aim or goal not visible");
             return 0;
         } else {
             return 0.0; //TODO regressionss
-        }
+        }*/
     }
 
     @Override

@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -53,6 +54,7 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    CameraServer.startAutomaticCapture();
     DRIVE_MODE = DRIVE_MODE.PRE_ENABLE;
     instance=this;
     driveTrain = new DriveTrain(1, 0);
@@ -68,7 +70,7 @@ public class RobotContainer {
 
     intake = new Intake(18, 0, 1);
 
-    climbingArms = new ClimbingArms(17, 19);
+    climbingArms = new ClimbingArms(17,  19);
 
 
 

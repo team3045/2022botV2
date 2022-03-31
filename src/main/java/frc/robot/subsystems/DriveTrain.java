@@ -77,6 +77,9 @@ public class DriveTrain extends SubsystemBase {
       case AUTON_AIM:
         drive(0, 0, RobotContainer.getInstance().LimelightVision.getRotSpeed());
         break;
+      default:
+        System.out.println("Switch/Case no work");
+        break;
     }
   }
 
