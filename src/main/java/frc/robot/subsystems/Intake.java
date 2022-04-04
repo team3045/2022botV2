@@ -49,7 +49,7 @@ public class Intake extends SubsystemBase {
         solenoid2.set(!solenoid2.get());
       }
     
-      intakeAxelController.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
+    intakeAxelController.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
                                                         + (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) ? -Constants.intakeSpeed : 0));
     }
   }

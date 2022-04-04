@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import javax.print.attribute.SetOfIntegerSyntax;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -22,12 +23,12 @@ import frc.robot.enums.*;
 
 
 public class Shooter extends SubsystemBase {
-    private final TalonSRX topFW;
-    private final TalonSRX bottomFW;
+    private final TalonFX topFW;
+    private final TalonFX bottomFW;
     
     public Shooter(int topFWID, int bottomFWID){
-        topFW = new TalonSRX(topFWID);
-        bottomFW = new TalonSRX(bottomFWID);
+        topFW = new TalonFX(topFWID);
+        bottomFW = new TalonFX(bottomFWID);
     }
 
     public double regression(Double distance){
