@@ -19,14 +19,14 @@ import frc.robot.enums.*;
 public class Magazine extends SubsystemBase {
   private final StopWatch shootTime;
 
-  private final TalonSRX uptakeMotor;
-  private final TalonSRX magazineMotor;
+  private final CANSparkMax uptakeMotor;
+  private final CANSparkMax magazineMotor;
 
   public Magazine(int uptake, int magazine) {
     shootTime=new StopWatch();
 
-    uptakeMotor = new TalonSRX(uptake);
-    magazineMotor = new TalonSRX(magazine);
+    uptakeMotor = new CANSparkMax(uptake);
+    magazineMotor = new CANSparkMax(magazine);
   }
 
   @Override
