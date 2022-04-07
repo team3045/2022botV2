@@ -87,6 +87,7 @@ public class DriveTrain extends SubsystemBase {
   public void drive (double x1, double y1, double x2) {
     double r = Math.sqrt ((L * L) + (W * W));
 
+    x1 = -x1;
     y1 = -y1;
     x2 = -x2;
 

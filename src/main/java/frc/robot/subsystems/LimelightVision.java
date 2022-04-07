@@ -102,8 +102,11 @@ public class LimelightVision extends SubsystemBase {
     return v;
   }
   public double getRotSpeed(){
+    findVals();
+    System.out.println("X: " + x);
+
     if(Math.abs(x) > Constants.aimTolerance)
-      return -MathUtil.clamp(x * Constants.aimSpeed, -Constants.maxAimRotSpeed, Constants.maxAimRotSpeed);
+      return -MathUtil.clamp(-x * Constants.aimSpeed, -Constants.maxAimRotSpeed, Constants.maxAimRotSpeed);
     else
       return 0.0;
   }

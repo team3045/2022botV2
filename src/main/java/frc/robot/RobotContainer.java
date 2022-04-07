@@ -32,10 +32,10 @@ public class RobotContainer {
   public final WheelDrive backLeft;
   public final WheelDrive frontRight;
   public final WheelDrive frontLeft;
-  //public final Shooter shooter;
-  //public final Magazine magazine;
+  public final Shooter shooter;
+  public final Magazine magazine;
   public final Intake intake;
-  //public final ClimbingArms climbingArms;
+  public final ClimbingArms climbingArms;
 
   public final LimelightVision LimelightVision = new LimelightVision();
 
@@ -64,13 +64,13 @@ public class RobotContainer {
     frontLeft = new WheelDrive (4, 5, 12, 2);
     frontRight = new WheelDrive (6, 7, 13, 3);
 
-    //shooter = new Shooter(8, 9);
+    shooter = new Shooter(8, 9);
 
-    //magazine = new Magazine(15, 16);
+    magazine = new Magazine(15, 16);
 
     intake = new Intake(18, 0, 1);
 
-    //climbingArms = new ClimbingArms(17,  19);
+    climbingArms = new ClimbingArms(17,  19);
 
 
 

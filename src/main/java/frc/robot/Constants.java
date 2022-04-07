@@ -33,7 +33,7 @@ public final class Constants {
     public static final int intakeButton = 12;
     public static final int intakeRLButton = 11;
 
-    public static final int uptakeButton = 6;
+    public static final int uptakeButton = 4;
     public static final int magButton = 7;
 
     public static final int climbingArmUpButton = 8;
@@ -45,11 +45,10 @@ public final class Constants {
     public static final double intakeSpeed = 0.68;
     public static final double climbingArmSpeed = 0.3;
     public static final double uptakeSpeed = 0.45;
-    public static final double magSpeed = 0.8
-                               ;
+    public static final double magSpeed = 0.4;
 
     public static final double driveBackTime = 3;
-    public static final double maxAimRotSpeed = 0.15;
+    public static final double maxAimRotSpeed = 0.21;
     public static final double aimTolerance = 5;
     public static final double aimSpeed = 0.12;
     public static final double ballSizeMult = 0.2;

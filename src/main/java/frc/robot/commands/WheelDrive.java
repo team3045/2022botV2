@@ -29,6 +29,7 @@ public class WheelDrive {
   private double setpoint;
 
   private double wheelOffset;
+  private double encoderPosInPeriodic;
 
   public WheelDrive (int angleMotor, int speedMotor, int encoder, int id) {
     this.id = id;
@@ -40,7 +41,8 @@ public class WheelDrive {
     wheelOffset = this.encoder.getAbsolutePosition();
   }
   public void drive (double speed, double angle) {
-    System.out.println(id + ": " +getEncoderOut());
+    encoderPosInPeriodic = encoder.getAbsolutePosition();
+    //System.out.println(id + ": " +getEncoderOut());
     speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
     this.setpoint = angle;
 
@@ -56,7 +58,7 @@ public class WheelDrive {
     return -Math.cos(delta);
   }
   public double getEncoderOut(){
-    return (((encoder.getAbsolutePosition()-wheelOffset)%360)+360)%360;
+    return (((encoderPosInPeriodic-wheelOffset)%360)+360)%360;
   }
   public double PIDEncOut(){
     return getEncoderOut() % 180;
@@ -65,6 +67,8 @@ public class WheelDrive {
     return setpoint;
   }
   public double getError(){
+    setpoint %= 180;
+
     double loopDownError = -((180 - setpoint) + PIDEncOut());
     double loopUpError = ((180 - PIDEncOut()) + setpoint);
 
