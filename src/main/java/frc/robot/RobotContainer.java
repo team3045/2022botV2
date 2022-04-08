@@ -55,6 +55,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
     CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture(1);
+
     DRIVE_MODE = DRIVE_MODE.PRE_ENABLE;
     instance=this;
     driveTrain = new DriveTrain(1, 0);

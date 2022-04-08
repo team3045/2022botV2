@@ -42,9 +42,10 @@ public class WheelDrive {
   }
   public void drive (double speed, double angle) {
     encoderPosInPeriodic = encoder.getAbsolutePosition();
+    this.setpoint = angle;
+
     //System.out.println(id + ": " +getEncoderOut());
     speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
-    this.setpoint = angle;
 
     double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.007,-0.5, 0.5),-1, 1);
     //System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);

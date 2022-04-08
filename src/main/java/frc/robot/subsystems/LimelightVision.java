@@ -94,7 +94,7 @@ public class LimelightVision extends SubsystemBase {
       return null;
     }
     if(v)
-      return Constants.goalRadius + (Constants.limeLightGoalVerticalOffset / Math.tan(Math.toRadians(y + Constants.limeLightAngleUp)));
+      return (Constants.limeLightGoalVerticalOffset / Math.tan(Math.toRadians(y + Constants.limeLightAngleUp))) - Constants.AdditionalOffsets;
     else
       return null;
   }
@@ -103,7 +103,7 @@ public class LimelightVision extends SubsystemBase {
   }
   public double getRotSpeed(){
     findVals();
-    System.out.println("X: " + x);
+    //System.out.println("X: " + x);
 
     if(Math.abs(x) > Constants.aimTolerance)
       return -MathUtil.clamp(-x * Constants.aimSpeed, -Constants.maxAimRotSpeed, Constants.maxAimRotSpeed);

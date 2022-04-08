@@ -55,8 +55,7 @@ public final class Constants {
     public static final double revTime = 1.0;
     public static final double uptakeTime = 1.0;
 
-    public static final double limeLightAngleUp = 0;
-    public static final double limeLightGoalVerticalOffset = 1.8923;
-    public static final double G = 9.80665;
-    public static final double goalRadius = 0.68;
+    public static final double limeLightAngleUp = 26.5;
+    public static final double limeLightGoalVerticalOffset = 5.825;
+    public static final double AdditionalOffsets = 0.91666667;
 }
