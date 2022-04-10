@@ -64,7 +64,7 @@ public class DriveTrain extends SubsystemBase {
         drive(0, 0, 0);
         break;
       case AUTON_START:
-        drive(0, -0.5, 0);
+        drive(0, 0.3, 0);
         break;
       case TELEOP_DRIVE:
         drive(joystickL.getRawAxis(0),joystickL.getRawAxis(1),joystickR.getRawAxis(0));

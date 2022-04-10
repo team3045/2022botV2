@@ -43,13 +43,13 @@ public final class Constants {
     public static final int colorPipeline = 1;
 
     public static final double intakeSpeed = 0.68;
-    public static final double climbingArmSpeed = 0.3;
+    public static final double climbingArmSpeed = 0.6;
     public static final double uptakeSpeed = 0.45;
     public static final double magSpeed = 0.4;
 
-    public static final double driveBackTime = 3;
+    public static final double driveBackTime = 1;
     public static final double maxAimRotSpeed = 0.21;
-    public static final double aimTolerance = 5;
+    public static final double aimTolerance = 6;
     public static final double aimSpeed = 0.12;
     public static final double ballSizeMult = 0.2;
     public static final double revTime = 1.0;

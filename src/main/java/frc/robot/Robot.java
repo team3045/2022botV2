@@ -11,6 +11,7 @@ import com.ctre.phoenix.time.StopWatch;
 import com.fasterxml.jackson.databind.util.RootNameLookup;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.enums.*;
@@ -115,7 +116,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-  }
+    SmartDashboard.putString("Drive Mode", RobotContainer.getInstance().DRIVE_MODE.toString());  }
 
   @Override
   public void testInit() {

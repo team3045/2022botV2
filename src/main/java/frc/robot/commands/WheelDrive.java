@@ -10,10 +10,13 @@ package frc.robot.commands;
 import javax.print.attribute.SetOfIntegerSyntax;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import frc.robot.Constants;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.time.StopWatch;
 
 import edu.wpi.first.math.MathUtil;
@@ -36,9 +39,20 @@ public class WheelDrive {
     //watch was here
     this.angleMotor = new TalonFX (angleMotor);
     this.speedMotor = new TalonFX (speedMotor);
-    this.encoder = new CANCoder(encoder);
+    this.encoder = new CANCoder(encoder); 
 
     wheelOffset = this.encoder.getAbsolutePosition();
+    this.angleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40); //default 10ms
+    this.angleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40); //default 20ms
+
+    this.speedMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40); //default 10ms
+    this.speedMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40); //default 20ms.
+    this.encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 15);
+
+    this.speedMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
+    this.speedMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
+
+    this.angleMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 25, 1));
   }
   public void drive (double speed, double angle) {
     encoderPosInPeriodic = encoder.getAbsolutePosition();

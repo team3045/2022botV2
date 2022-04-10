@@ -17,13 +17,15 @@ public class ClimbingArms extends SubsystemBase{
     public ClimbingArms(int armMotor1, int armMotor2) {
         this.armMotor1 = new CANSparkMax(armMotor1, MotorType.kBrushless);
         this.armMotor2 = new CANSparkMax(armMotor2, MotorType.kBrushless);
+
+        
     }
 
     @Override 
     public void periodic() {    
         armMotor2.set(-(RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmUpButton) ? Constants.climbingArmSpeed : 0) -
+                    (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmDownButton) ? -Constants.climbingArmSpeed : 0));
+        armMotor1.set((RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmUpButton) ? Constants.climbingArmSpeed : 0) +
                       (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmDownButton) ? -Constants.climbingArmSpeed : 0));
-        //armMotor1.set((RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmUpButton) ? Constants.climbingArmSpeed : 0) +
-        //              (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.climbingArmDownButton) ? -Constants.climbingArmSpeed : 0));
     }
 }

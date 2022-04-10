@@ -40,6 +40,7 @@ public class LimelightVision extends SubsystemBase {
     return aiming;
   }
   public void setAiming(boolean value){
+    /*
     aiming = value;
     if(value){
       if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE)
@@ -55,7 +56,7 @@ public class LimelightVision extends SubsystemBase {
         RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_DRIVE;
 
       pipeline.setDouble(Constants.colorPipeline);
-    }
+    }*/
   }
   public double x1Auto(){
     return Math.sin(x) / (Constants.ballSizeMult * area);

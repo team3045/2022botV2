@@ -40,6 +40,8 @@ public class Shooter extends SubsystemBase {
     }
 
     double regression(Double distance){
+        return SmartDashboard.getNumber("throttle", 0.0);
+        /*
         if(distance == null){
           System.out.println("Aim off or goal not visible");
           return 0.0;
@@ -50,41 +52,43 @@ public class Shooter extends SubsystemBase {
           speed += 0.0408044733 * distance;
           speed += -0.0129329004 * distance * distance;
           speed += 0.0014141414 * distance * distance * distance;
-  
+            
+          speed += 0.02;
           return speed;
         }
+        */
     }
 
     @Override
     public void periodic(){
-        if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
+        /*if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
             if(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance() != null){
                 SmartDashboard.putNumber("Distance", RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance());
                 SmartDashboard.putNumber("Speed", regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
             }
-        }
-        if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM){
+        }*/
+        if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
             if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.revButton) || RobotContainer.getInstance().buttonBoard.getRawButtonReleased(Constants.revButton))
                 revWatch.start();
 
             if (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.revButton)){
-                topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp(revWatch.getDuration() / 3, 0.0, 1.0));
-                bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp(revWatch.getDuration() / 3, 0.0, 1.0));
+                topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+                bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
             } else {
-                topFW.set(ControlMode.PercentOutput,  (revWatch.getDuration() < 1) ? (regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp(revWatch.getDuration() / 3, 0.0, 1.0)) : 0); 
-                bottomFW.set(ControlMode.PercentOutput, (revWatch.getDuration() < 1) ? (-regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp(revWatch.getDuration() / 3, 0.0, 1.0)) : 0);
+                topFW.set(ControlMode.PercentOutput,0);
+                bottomFW.set(ControlMode.PercentOutput,0);
             }
         } else if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
             if(RobotContainer.getInstance().LimelightVision.autonShouldShoot()){
-                topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((1.0 - revWatch.getDuration()) / 3, 0.0, 1.0));
-                bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((1.0 - revWatch.getDuration()) / 3, 0.0, 1.0));
+                topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((1.0 - revWatch.getDuration()) / 2, 0.0, 1.0));
+                bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((1.0 - revWatch.getDuration()) / 2, 0.0, 1.0));
             } else {
-                topFW.set(ControlMode.PercentOutput,  (revWatch.getDuration() < 1) ? (regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((revWatch.getDuration()) / 3, 0.0, 1.0)) : 0); 
-                bottomFW.set(ControlMode.PercentOutput, (revWatch.getDuration() < 1) ? (-regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((revWatch.getDuration()) / 3, 0.0, 1.0)) : 0);
+                topFW.set(ControlMode.PercentOutput,0);
+                bottomFW.set(ControlMode.PercentOutput,0);
             }
         } else {
-            topFW.set(ControlMode.PercentOutput,  (revWatch.getDuration() < 1) ? (regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((revWatch.getDuration()) / 3, 0.0, 1.0)) : 0); 
-            bottomFW.set(ControlMode.PercentOutput, (revWatch.getDuration() < 1) ? (-regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((revWatch.getDuration()) / 3, 0.0, 1.0)) : 0);
+            topFW.set(ControlMode.PercentOutput,  0);
+            bottomFW.set(ControlMode.PercentOutput, 0);
         }
     }
 }
