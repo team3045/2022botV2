@@ -47,7 +47,7 @@ public final class Constants {
     public static final double uptakeSpeed = 0.45;
     public static final double magSpeed = 0.4;
 
-    public static final double driveBackTime = 1;
+    public static final double driveBackTime = 1.5;
     public static final double maxAimRotSpeed = 0.21;
     public static final double aimTolerance = 6;
     public static final double aimSpeed = 0.12;
@@ -55,6 +55,7 @@ public final class Constants {
     public static final double revTime = 1.0;
     public static final double uptakeTime = 1.0;
 
+    public static final double shootTime = 10;
     public static final double limeLightAngleUp = 26.5;
     public static final double limeLightGoalVerticalOffset = 5.825;
     public static final double AdditionalOffsets = 0.91666667;

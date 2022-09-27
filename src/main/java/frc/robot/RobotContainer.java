@@ -30,15 +30,19 @@ public class RobotContainer {
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveTrain driveTrain;
+
+  public static Robot robot;
+
   public final WheelDrive backRight;
   public final WheelDrive backLeft;
   public final WheelDrive frontRight;
   public final WheelDrive frontLeft;
+  /*
   public final Shooter shooter;
   public final Magazine magazine;
   public final Intake intake;
   public final ClimbingArms climbingArms;
-
+  */
   public final LimelightVision LimelightVision = new LimelightVision();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -63,11 +67,11 @@ public class RobotContainer {
     instance=this;
     driveTrain = new DriveTrain(1, 0);
 
-    backLeft = new WheelDrive (20, 1, 10, 0);
-    backRight = new WheelDrive (2, 3, 11, 1);
-    frontLeft = new WheelDrive (4, 5, 12, 2);
-    frontRight = new WheelDrive (6, 7, 13, 3);
-
+    frontLeft = new WheelDrive (0, 1, 10, 0);
+    backRight = new WheelDrive (4, 5, 11, 1);
+    frontRight = new WheelDrive (2, 3, 8, 2);
+    backLeft = new WheelDrive (6, 7, 9, 3);
+    /*
     shooter = new Shooter(8, 9);
 
     magazine = new Magazine(15, 16);
@@ -75,7 +79,7 @@ public class RobotContainer {
     intake = new Intake(18, 0, 1);
 
     climbingArms = new ClimbingArms(17,  19);
-
+    */
 
 
 

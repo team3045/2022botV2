@@ -60,6 +60,9 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {    
     switch (RobotContainer.DRIVE_MODE){
+      case AUTON_SHOOT:
+        drive(0, 0, 0);
+        break;
       case PRE_ENABLE:
         drive(0, 0, 0);
         break;

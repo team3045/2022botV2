@@ -58,6 +58,9 @@ public class Magazine extends SubsystemBase {
       } else if (shootTime.getDuration() > Constants.revTime + Constants.uptakeButton){
         RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_DRIVE;
       }
+    } else if (RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_SHOOT && RobotContainer.robot.watch.getDuration() > 3){
+      uptakeMotor.set(-Constants.uptakeSpeed);
+      magazineMotor.set(-Constants.magSpeed);
     }
   }
 }

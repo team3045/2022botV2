@@ -6,5 +6,6 @@ public enum DRIVE_MODE {
     TELEOP_AIM,
     AUTON_AIM,
     AUTON_START,
-    PRE_ENABLE
+    PRE_ENABLE,
+    AUTON_SHOOT
 }

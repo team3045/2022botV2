@@ -78,14 +78,9 @@ public class Shooter extends SubsystemBase {
                 topFW.set(ControlMode.PercentOutput,0);
                 bottomFW.set(ControlMode.PercentOutput,0);
             }
-        } else if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
-            if(RobotContainer.getInstance().LimelightVision.autonShouldShoot()){
-                topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((1.0 - revWatch.getDuration()) / 2, 0.0, 1.0));
-                bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()) * MathUtil.clamp((1.0 - revWatch.getDuration()) / 2, 0.0, 1.0));
-            } else {
-                topFW.set(ControlMode.PercentOutput,0);
-                bottomFW.set(ControlMode.PercentOutput,0);
-            }
+        } else if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_SHOOT){
+            topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+            bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
         } else {
             topFW.set(ControlMode.PercentOutput,  0);
             bottomFW.set(ControlMode.PercentOutput, 0);

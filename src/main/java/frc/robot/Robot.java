@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import javax.swing.DropMode;
+
 import com.ctre.phoenix.time.StopWatch;
 import com.fasterxml.jackson.databind.util.RootNameLookup;
 
@@ -26,7 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private StopWatch watch;
+  public StopWatch watch;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -37,6 +39,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_robotContainer.robot = this;
   }
 
   /**
@@ -78,7 +81,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     watch = new StopWatch();
     watch.start();
-    RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_START;
+    RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_SHOOT;
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -93,7 +96,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_START && watch.getDuration() > Constants.driveBackTime){
+    if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_SHOOT && watch.getDuration() > Constants.shootTime){
+      RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_START;
+    }
+    if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_START && watch.getDuration() > (Constants.driveBackTime + Constants.shootTime)){
       RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_AIM;
     }
   }
