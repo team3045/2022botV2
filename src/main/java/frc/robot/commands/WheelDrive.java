@@ -40,9 +40,9 @@ public class WheelDrive {
     //watch was here
     this.angleMotor = new TalonFX (angleMotor, "Default Name");
     this.speedMotor = new TalonFX (speedMotor, "Default Name");
-    this.encoder = new CANCoder(encoder); 
+    this.encoder = new CANCoder(encoder, "Default Name"); 
 
-    wheelOffset = this.angleMotor.getSelectedSensorPosition()*7/72;
+    wheelOffset = this.encoder.getAbsolutePosition();
     this.angleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40); //default 10ms
     this.angleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40); //default 20ms
 
@@ -55,13 +55,13 @@ public class WheelDrive {
     this.angleMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 20, 25, 1));
   }
   public void drive (double speed, double angle) {
-    encoderPosInPeriodic = angleMotor.getSelectedSensorPosition();
+    encoderPosInPeriodic = encoder.getAbsolutePosition();
     this.setpoint = angle;
 
     System.out.println(id + ": " +getEncoderOut());
     this.speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
 
-    double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.002,-0.1, 0.1),-1, 1);
+    double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.007,-0.5, 0.5),-1, 1);
     //System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);
     
     
@@ -73,12 +73,12 @@ public class WheelDrive {
     return -Math.cos(delta);
   }
   public double getEncoderOut(){
-    return ((((encoderPosInPeriodic-wheelOffset)*7/72)%360)+360)%360;
+    return (((encoderPosInPeriodic-wheelOffset)%360)+360)%360;
   }
   public double PIDEncOut(){
     return (getEncoderOut()) % 180;
   }
-  public double getSetpoint(){
+  public double getSetpoint(){                     
     return setpoint;
   }
   public double getError(){
