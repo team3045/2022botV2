@@ -48,7 +48,7 @@ public class WheelDrive {
 
     this.speedMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40); //default 10ms
     this.speedMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40); //default 20ms.
-    //this.encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 15);
+    this.encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 15);
 
     this.speedMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
     this.speedMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 1));
@@ -73,6 +73,9 @@ public class WheelDrive {
     return -Math.cos(delta);
   }
   public double getEncoderOut(){
+    if(id==0){
+      return (((encoderPosInPeriodic-(wheelOffset+14))%360)+360)%360;
+    }
     return (((encoderPosInPeriodic-wheelOffset)%360)+360)%360;
   }
   public double PIDEncOut(){
