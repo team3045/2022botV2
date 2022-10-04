@@ -61,7 +61,7 @@ public final class Constants {
     public static final double AdditionalOffsets = 0.91666667;
 
     public static final double G = -9.807; //m/s^2
-    public static final double shootAngle = 0.34871678; //TODO radians
+    public static final double shootAngle = 0.34871678; //radians
     public static final double wheelDiamter = 0.1016; //meters
     public static final double speedTolerance = 0.025;
 }

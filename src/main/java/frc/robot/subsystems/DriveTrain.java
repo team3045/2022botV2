@@ -8,11 +8,13 @@
 package frc.robot.subsystems;
 
 import java.io.Console;
+import java.nio.DoubleBuffer;
 
 import javax.lang.model.util.ElementScanner6;
 import javax.naming.PartialResultException;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.time.StopWatch;
 
 
@@ -27,6 +29,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.enums.*;
 
 public class DriveTrain extends SubsystemBase {
+  private final Pigeon2 pigeon = new Pigeon2(0, "Default Name");
+  private double calibrationAngle = 0;
+
   private final Joystick joystickL;
   private final Joystick joystickR;
 
@@ -59,6 +64,9 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {    
+    if(joystickL.getRawButtonPressed(10))
+      calibrationAngle = pigeon.getYaw();
+
     switch (RobotContainer.DRIVE_MODE){
       case AUTON_SHOOT:
         drive(0, 0, 0);
@@ -70,7 +78,7 @@ public class DriveTrain extends SubsystemBase {
         drive(0, 0.3, 0);
         break;
       case TELEOP_DRIVE:
-        drive(joystickL.getRawAxis(0),joystickL.getRawAxis(1),joystickR.getRawAxis(0));
+        drive(-joystickL.getRawAxis(0),-joystickL.getRawAxis(1),joystickR.getRawAxis(0));
         break;
       case AUTON_DRIVE:
         drive(0,0,0);
@@ -86,8 +94,18 @@ public class DriveTrain extends SubsystemBase {
         break;
     }
   }
+  public void drive(double x, double y, double rot){
+    //rotates the heading input by the negative rotation of the bot to ensure that it stays field-oriented
+    double angleInRads = ((float)(-(pigeon.getYaw())) - calibrationAngle) * (float)Math.PI/180;
 
-  public void drive (double x1, double y1, double x2) {
+    double cos = Math.cos(-angleInRads);
+    double sin = Math.sin(-angleInRads);
+
+    System.out.println("Angle of Bot: " + angleInRads * 180/Math.PI);
+
+    robotOrientedDrive(x * cos - y * sin, y * cos + x * sin, rot);
+}
+  public void robotOrientedDrive (double x1, double y1, double x2) {
     double r = Math.sqrt ((L * L) + (W * W));
 
     x1 = -x1;
