@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.time.StopWatch;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.*;
 
@@ -38,8 +39,27 @@ public class Shooter extends SubsystemBase {
         topFW = new TalonFX(topFWID);
         bottomFW = new TalonFX(bottomFWID);
     }
+    
+    double targetSpeed(double distance){
+        double sin = Math.sin(Constants.shootAngle);
+        double cos = Math.cos(Constants.shootAngle);
+        double cosSqrd = cos*cos;
+
+        return Math.sqrt((-Constants.limeLightGoalVerticalOffset + Math.sqrt(Constants.limeLightGoalVerticalOffset * Constants.limeLightGoalVerticalOffset*cosSqrd*cosSqrd+4*Constants.G*Constants.G*distance*distance*sin*cosSqrd))/2*sin);
+    }
+
+    double Velocity(Double distance){
+        if(distance != null){
+            return 204.8*Math.PI*Constants.wheelDiamter*targetSpeed(distance);
+        } else{
+            System.err.println("Goal Distance Not Found");
+            return 0;
+        }
+    }
 
     double regression(Double distance){
+
+
         return SmartDashboard.getNumber("throttle", 0.0);
         /*
         if(distance == null){
@@ -67,23 +87,37 @@ public class Shooter extends SubsystemBase {
                 SmartDashboard.putNumber("Speed", regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
             }
         }*/
+
+
         if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
             if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.revButton) || RobotContainer.getInstance().buttonBoard.getRawButtonReleased(Constants.revButton))
                 revWatch.start();
 
             if (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.revButton)){
-                topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
-                bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+                double vel = Velocity(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance());
+
+                topFW.set(ControlMode.Velocity, vel);
+                bottomFW.set(ControlMode.Velocity, -vel);
+
             } else {
                 topFW.set(ControlMode.PercentOutput,0);
                 bottomFW.set(ControlMode.PercentOutput,0);
             }
         } else if(RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_SHOOT){
-            topFW.set(ControlMode.PercentOutput, regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
-            bottomFW.set(ControlMode.PercentOutput, -regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
+            double vel = Velocity(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance());
+
+            topFW.set(ControlMode.Velocity, vel);
+            bottomFW.set(ControlMode.Velocity, -vel);
         } else {
             topFW.set(ControlMode.PercentOutput,  0);
             bottomFW.set(ControlMode.PercentOutput, 0);
         }
+    }
+
+    public boolean wheelVelocitiesInRange(double targetVel){
+        double topVel = topFW.getSelectedSensorVelocity();
+        double bottomVel = bottomFW.getSelectedSensorVelocity();
+        
+        return (topVel * (1+Constants.speedTolerance)) > targetVel && (topVel * (1-Constants.speedTolerance)) < targetVel && (bottomVel * (1+Constants.speedTolerance)) > targetVel && (bottomVel * (1+Constants.speedTolerance)) < targetVel;
     }
 }

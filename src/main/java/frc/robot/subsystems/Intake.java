@@ -11,6 +11,7 @@ package frc.robot.subsystems;
 import javax.print.attribute.SetOfIntegerSyntax;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -37,6 +38,7 @@ public class Intake extends SubsystemBase {
 
     public Intake(int axelControllerID, int solenoidID1, int solenoidID2) {
         this.intakeAxelController = new TalonSRX(axelControllerID);
+
         solenoid1 = new Solenoid(PneumaticsModuleType.CTREPCM, solenoidID1);
         solenoid2 = new Solenoid(PneumaticsModuleType.CTREPCM, solenoidID2);
     }
@@ -49,7 +51,7 @@ public class Intake extends SubsystemBase {
         solenoid2.set(!solenoid2.get());
       }
     
-    intakeAxelController.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
+    intakeAxelController.set(ControlMode.Current, (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
                                                         + (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) ? -Constants.intakeSpeed : 0));
     }
   }

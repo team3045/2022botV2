@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_robotContainer.robot = this;
+
+    m_robotContainer.comp.enableDigital();
   }
 
   /**

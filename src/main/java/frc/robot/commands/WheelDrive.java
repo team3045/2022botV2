@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import java.security.spec.ECField;
+
 import javax.print.attribute.SetOfIntegerSyntax;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -32,23 +34,25 @@ public class WheelDrive {
   public  final int id;
   private double setpoint;
 
+  private boolean zeroed = false;
+
   private double wheelOffset;
   private double encoderPosInPeriodic;
 
-  public WheelDrive (int angleMotor, int speedMotor, int encoder, int id) {
+  public WheelDrive (int angleMotor, int speedMotor, int encoder, int id, double wheelOffset) {
     this.id = id;
     //watch was here
     this.angleMotor = new TalonFX (angleMotor, "Default Name");
     this.speedMotor = new TalonFX (speedMotor, "Default Name");
     this.encoder = new CANCoder(encoder, "Default Name"); 
 
-    wheelOffset = this.encoder.getAbsolutePosition();
+    //this.wheelOffset= wheelOffset;
     this.angleMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40); //default 10ms
     this.angleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40); //default 20ms
 
     this.speedMotor.setStatusFramePeriod(StatusFrame.Status_1_General, 40); //default 10ms
     this.speedMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 40); //default 20ms.
-    this.encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 15);
+    //this.encoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 15);
 
     this.speedMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 45, 1));
     this.speedMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 40, 1));
@@ -56,16 +60,21 @@ public class WheelDrive {
   }
   public void drive (double speed, double angle) {
     encoderPosInPeriodic = encoder.getAbsolutePosition();
-    this.setpoint = angle;
+    if(!zeroed && encoderPosInPeriodic != 0){
+      zeroed = true;
+      wheelOffset = encoderPosInPeriodic;
+    } if (zeroed){
+      this.setpoint = angle;
 
-    System.out.println(id + ": " +getEncoderOut());
-    this.speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
+      System.out.println(id + ": " + encoderPosInPeriodic);
+      this.speedMotor.set (ControlMode.PercentOutput, speed * angleFactor());
 
-    double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.007,-0.5, 0.5),-1, 1);
-    //System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);
+      double rate = -MathUtil.clamp(/*getMagScaler() * */MathUtil.clamp(getError() * 0.007,-0.5, 0.5),-1, 1);
+      //System.out.println(id + ":" + getEncoderOut() + '|' + getError() + '|' + setpoint + '|' + rate);
     
     
-    angleMotor.set(ControlMode.PercentOutput, rate);
+      angleMotor.set(ControlMode.PercentOutput, rate);
+    }
   }
   double angleFactor(){
     double delta = getEncoderOut()-setpoint;
@@ -73,9 +82,6 @@ public class WheelDrive {
     return -Math.cos(delta);
   }
   public double getEncoderOut(){
-    if(id==0){
-      return (((encoderPosInPeriodic-(wheelOffset+14))%360)+360)%360;
-    }
     return (((encoderPosInPeriodic-wheelOffset)%360)+360)%360;
   }
   public double PIDEncOut(){
