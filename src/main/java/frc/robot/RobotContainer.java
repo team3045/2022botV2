@@ -43,6 +43,7 @@ public class RobotContainer {
   public final Shooter shooter;
   public final Intake intake;
   public final ClimbingArms climbingArms;
+  public final Magazine magazine;
   
   public final LimelightVision LimelightVision = new LimelightVision();
 
@@ -76,9 +77,11 @@ public class RobotContainer {
 
     shooter = new Shooter(8, 9);
 
-    intake = new Intake(18, 0, 1);
+    intake = new Intake(18, 0);
 
     climbingArms = new ClimbingArms(17,  19);
+
+    magazine = new Magazine(15);
   
 
 
