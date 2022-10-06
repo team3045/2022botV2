@@ -10,8 +10,10 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -37,18 +39,19 @@ public class RobotContainer {
   public final WheelDrive backLeft;
   public final WheelDrive frontRight;
   public final WheelDrive frontLeft;
-  /*
+  
   public final Shooter shooter;
-  public final Magazine magazine;
   public final Intake intake;
   public final ClimbingArms climbingArms;
-  */
+  public final Magazine magazine;
+  
   public final LimelightVision LimelightVision = new LimelightVision();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private static RobotContainer instance;
   public final Joystick buttonBoard = new Joystick(2);
 
+  public final Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
 
   public static RobotContainer getInstance(){
     return instance;
@@ -67,19 +70,19 @@ public class RobotContainer {
     instance=this;
     driveTrain = new DriveTrain(1, 0);
 
-    frontLeft = new WheelDrive (0, 1, 10, 0);
-    backRight = new WheelDrive (4, 5, 11, 1);
-    frontRight = new WheelDrive (2, 3, 8, 2);
-    backLeft = new WheelDrive (6, 7, 9, 3);
-    /*
+    frontLeft = new WheelDrive (0, 1, 10, 0, 7.82);
+    backRight = new WheelDrive (4, 5, 11, 1, 256.99);
+    frontRight = new WheelDrive (2, 3, 8, 2, 336.18);
+    backLeft = new WheelDrive (6, 7, 9, 3, 307.0);
+
     shooter = new Shooter(8, 9);
 
-    magazine = new Magazine(15, 16);
-
-    intake = new Intake(18, 0, 1);
+    intake = new Intake(18, 0);
 
     climbingArms = new ClimbingArms(17,  19);
-    */
+
+    magazine = new Magazine(15);
+  
 
 
 

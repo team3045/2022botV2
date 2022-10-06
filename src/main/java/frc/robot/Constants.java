@@ -42,10 +42,10 @@ public final class Constants {
 
     public static final int colorPipeline = 1;
 
-    public static final double intakeSpeed = 0.68;
+    public static final double intakeSpeed = 0.5;
     public static final double climbingArmSpeed = 0.6;
-    public static final double uptakeSpeed = 0.45;
-    public static final double magSpeed = 0.4;
+    public static final double uptakeSpeed = -0.45;
+    public static final double magSpeed = -0.4;
 
     public static final double driveBackTime = 1.5;
     public static final double maxAimRotSpeed = 0.21;
@@ -59,4 +59,9 @@ public final class Constants {
     public static final double limeLightAngleUp = 26.5;
     public static final double limeLightGoalVerticalOffset = 5.825;
     public static final double AdditionalOffsets = 0.91666667;
+
+    public static final double G = -9.807; //m/s^2
+    public static final double shootAngle = 0.34871678; //radians
+    public static final double wheelDiamter = 0.1016; //meters
+    public static final double speedTolerance = 0.025;
 }

@@ -11,6 +11,7 @@ package frc.robot.subsystems;
 import javax.print.attribute.SetOfIntegerSyntax;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -31,14 +32,14 @@ import frc.robot.enums.*;
 
 
 public class Intake extends SubsystemBase {
-    public final Solenoid solenoid1, solenoid2;
+    public final Solenoid solenoid1;
     public final TalonSRX intakeAxelController;
 
 
-    public Intake(int axelControllerID, int solenoidID1, int solenoidID2) {
+    public Intake(int axelControllerID, int solenoidID1) {
         this.intakeAxelController = new TalonSRX(axelControllerID);
+
         solenoid1 = new Solenoid(PneumaticsModuleType.CTREPCM, solenoidID1);
-        solenoid2 = new Solenoid(PneumaticsModuleType.CTREPCM, solenoidID2);
     }
 
   @Override
@@ -46,11 +47,16 @@ public class Intake extends SubsystemBase {
     if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
       if(RobotContainer.getInstance().buttonBoard.getRawButtonPressed(Constants.intakeRLButton)){
         solenoid1.set(!solenoid1.get());
-        solenoid2.set(!solenoid2.get());
       }
-    
-    intakeAxelController.set(ControlMode.PercentOutput, (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
-                                                        + (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) ? -Constants.intakeSpeed : 0));
+    System.out.println("12 pressed");
+    if(RobotContainer.getInstance().buttonBoard.getRawButton(Constants.intakeButton)){
+      intakeAxelController.set(ControlMode.PercentOutput, 0.75 /*(RobotContainer.getInstance().buttonBoard.getRawButton(Constants.intakeButton)  ?  Constants.intakeSpeed : 0) 
+                                                        + (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) ? -Constants.intakeSpeed : 0)*/);
+    } else if(RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton)){
+      intakeAxelController.set(ControlMode.PercentOutput, -0.75);
+    } else {
+      intakeAxelController.set(ControlMode.PercentOutput, 0);
+    }
     }
   }
 }

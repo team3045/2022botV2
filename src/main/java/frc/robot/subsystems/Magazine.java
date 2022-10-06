@@ -21,46 +21,32 @@ import frc.robot.enums.*;
 public class Magazine extends SubsystemBase {
   private final StopWatch shootTime;
 
-  private final CANSparkMax uptakeMotor;
   private final CANSparkMax magazineMotor;
 
-  public Magazine(int uptake, int magazine) {
+  public Magazine(int magazine) {
     shootTime=new StopWatch();
 
-    uptakeMotor = new CANSparkMax(uptake, MotorType.kBrushless);
     magazineMotor = new CANSparkMax(magazine, MotorType.kBrushless);
   }
 
   @Override
   public void periodic() {
+    
     if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
-     if(RobotContainer.getInstance().buttonBoard.getRawButton(Constants.magButton))
-        magazineMotor.set(-(Constants.magSpeed + 
-                           (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) ? -Constants.magSpeed : 0)));
-      else
-        magazineMotor.set(-((RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) ? -Constants.magSpeed : 0)));
-      if(RobotContainer.getInstance().buttonBoard.getRawButton(Constants.uptakeButton)){
-        uptakeMotor.set(-(Constants.uptakeSpeed + 
-                         (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) || 
-                          RobotContainer.getInstance().buttonBoard.getRawButton(Constants.uptakeReverseButton)
-                          ? -Constants.uptakeSpeed : 0)));
-        magazineMotor.set(-(Constants.magSpeed + 
-                           (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) ? -Constants.magSpeed : 0)));
-     }
-     else
-        uptakeMotor.set(-((RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton) || 
-                           RobotContainer.getInstance().buttonBoard.getRawButton(Constants.uptakeReverseButton) 
-                           ? -Constants.uptakeSpeed : 0)));
+      magazineMotor.set((RobotContainer.getInstance().buttonBoard.getRawButton(Constants.magButton) ? Constants.magSpeed : 0) + (RobotContainer.getInstance().buttonBoard.getRawButton(Constants.uptakeButton) ? Constants.uptakeSpeed : 0));
+      if(RobotContainer.getInstance().buttonBoard.getRawButton(Constants.reverseButton)){
+        magazineMotor.set(-1 * Constants.magSpeed);
+      }
     } else if (RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
       if(shootTime.getDuration() > Constants.revTime && shootTime.getDuration() < Constants.revTime + Constants.uptakeTime){
-        uptakeMotor.set(-Constants.uptakeSpeed);
-        magazineMotor.set(-Constants.magSpeed);
+        //uptakeMotor.set(-Constants.uptakeSpeed);
+        magazineMotor.set(Constants.magSpeed);
       } else if (shootTime.getDuration() > Constants.revTime + Constants.uptakeButton){
         RobotContainer.DRIVE_MODE = DRIVE_MODE.AUTON_DRIVE;
       }
     } else if (RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_SHOOT && RobotContainer.robot.watch.getDuration() > 3){
-      uptakeMotor.set(-Constants.uptakeSpeed);
-      magazineMotor.set(-Constants.magSpeed);
+      //uptakeMotor.set(-Constants.uptakeSpeed);
+      magazineMotor.set(Constants.magSpeed);
     }
   }
 }
