@@ -60,9 +60,9 @@ public class Shooter extends SubsystemBase {
     double regression(Double distance){
 
 
-        return SmartDashboard.getNumber("throttle", 0.0);
-        /*
-        if(distance == null){
+        //return SmartDashboard.getNumber("throttle", 0.0);
+        
+        if(distance == null) {
           System.out.println("Aim off or goal not visible");
           return 0.0;
         } else {
@@ -76,17 +76,17 @@ public class Shooter extends SubsystemBase {
           speed += 0.02;
           return speed;
         }
-        */
+        
     }
 
     @Override
     public void periodic(){
-        /*if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
+        if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_AIM || RobotContainer.DRIVE_MODE == DRIVE_MODE.AUTON_AIM){
             if(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance() != null){
                 SmartDashboard.putNumber("Distance", RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance());
                 SmartDashboard.putNumber("Speed", regression(RobotContainer.getInstance().LimelightVision.getGoalHorizontalDistance()));
             }
-        }*/
+        }
 
 
         if(RobotContainer.DRIVE_MODE == DRIVE_MODE.TELEOP_DRIVE){
